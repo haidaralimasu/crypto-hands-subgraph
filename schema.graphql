@@ -1,0 +1,6 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  _betId: BigInt! # uint256
+  _playerChoice: Int! # uint8
+}
