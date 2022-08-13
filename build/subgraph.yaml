@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: RockPaperScissors
@@ -25,7 +25,7 @@ dataSources:
         - Unpaused
       abis:
         - name: RockPaperScissors
-          file: ./abis/RockPaperScissors.json
+          file: RockPaperScissors/abis/RockPaperScissors.json
       eventHandlers:
         - event: BetCreated(uint256,uint8,address,uint256,uint256,uint256)
           handler: handleBetCreated
@@ -45,7 +45,7 @@ dataSources:
           handler: handleResultsDeclared
         - event: Unpaused(address)
           handler: handleUnpaused
-      file: ./src/rock-paper-scissors.ts
+      file: RockPaperScissors/RockPaperScissors.wasm
   - kind: ethereum
     name: CryptoHands
     network: mumbai
@@ -78,7 +78,7 @@ dataSources:
         - WhitelistRemoved
       abis:
         - name: CryptoHands
-          file: ./abis/CryptoHands.json
+          file: CryptoHands/abis/CryptoHands.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
@@ -116,4 +116,4 @@ dataSources:
           handler: handleWhitelistAdded
         - event: WhitelistRemoved(address)
           handler: handleWhitelistRemoved
-      file: ./src/contract.ts
+      file: CryptoHands/CryptoHands.wasm
