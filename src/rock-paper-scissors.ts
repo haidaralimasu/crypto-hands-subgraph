@@ -1,6 +1,15 @@
-import { BigInt } from "@graphprotocol/graph-ts"
 import {
-  RockPaperScissors,
+  BetCreated as BetCreatedEvent,
+  CryptoHandsUpdated as CryptoHandsUpdatedEvent,
+  DividerUpdated as DividerUpdatedEvent,
+  MaxBetUpdated as MaxBetUpdatedEvent,
+  MinBetUpdated as MinBetUpdatedEvent,
+  OwnershipTransferred as OwnershipTransferredEvent,
+  Paused as PausedEvent,
+  ResultsDeclared as ResultsDeclaredEvent,
+  Unpaused as UnpausedEvent,
+} from "../generated/RockPaperScissors/RockPaperScissors";
+import {
   BetCreated,
   CryptoHandsUpdated,
   DividerUpdated,
@@ -9,69 +18,92 @@ import {
   OwnershipTransferred,
   Paused,
   ResultsDeclared,
-  Unpaused
-} from "../generated/RockPaperScissors/RockPaperScissors"
-import { ExampleEntity } from "../generated/schema"
+  Unpaused,
+} from "../generated/schema";
 
-export function handleBetCreated(event: BetCreated): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity._betId = event.params._betId
-  entity._playerChoice = event.params._playerChoice
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.getMaxBet(...)
-  // - contract.getMinBet(...)
-  // - contract.owner(...)
-  // - contract.paused(...)
-  // - contract.s_bets(...)
-  // - contract.s_nftWinPercentage(...)
+export function handleBetCreated(event: BetCreatedEvent): void {
+  let entity = new BetCreated(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity._betId = event.params._betId;
+  entity._playerChoice = event.params._playerChoice;
+  entity._player = event.params._player;
+  entity._betAmount = event.params._betAmount;
+  entity._winAmount = event.params._winAmount;
+  entity._time = event.params._time;
+  entity.save();
 }
 
-export function handleCryptoHandsUpdated(event: CryptoHandsUpdated): void {}
+export function handleCryptoHandsUpdated(event: CryptoHandsUpdatedEvent): void {
+  let entity = new CryptoHandsUpdated(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity._newCryptoHands = event.params._newCryptoHands;
+  entity.save();
+}
 
-export function handleDividerUpdated(event: DividerUpdated): void {}
+export function handleDividerUpdated(event: DividerUpdatedEvent): void {
+  let entity = new DividerUpdated(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity._newDivider = event.params._newDivider;
+  entity.save();
+}
 
-export function handleMaxBetUpdated(event: MaxBetUpdated): void {}
+export function handleMaxBetUpdated(event: MaxBetUpdatedEvent): void {
+  let entity = new MaxBetUpdated(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity._newMaxBet = event.params._newMaxBet;
+  entity.save();
+}
 
-export function handleMinBetUpdated(event: MinBetUpdated): void {}
+export function handleMinBetUpdated(event: MinBetUpdatedEvent): void {
+  let entity = new MinBetUpdated(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity._newMinBet = event.params._newMinBet;
+  entity.save();
+}
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleOwnershipTransferred(
+  event: OwnershipTransferredEvent
+): void {
+  let entity = new OwnershipTransferred(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity.previousOwner = event.params.previousOwner;
+  entity.newOwner = event.params.newOwner;
+  entity.save();
+}
 
-export function handlePaused(event: Paused): void {}
+export function handlePaused(event: PausedEvent): void {
+  let entity = new Paused(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity.account = event.params.account;
+  entity.save();
+}
 
-export function handleResultsDeclared(event: ResultsDeclared): void {}
+export function handleResultsDeclared(event: ResultsDeclaredEvent): void {
+  let entity = new ResultsDeclared(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity._betId = event.params._betId;
+  entity._choice = event.params._choice;
+  entity._outcome = event.params._outcome;
+  entity._amount = event.params._amount;
+  entity._winAmount = event.params._winAmount;
+  entity._player = event.params._player;
+  entity._result = event.params._result;
+  entity._time = event.params._time;
+  entity.save();
+}
 
-export function handleUnpaused(event: Unpaused): void {}
+export function handleUnpaused(event: UnpausedEvent): void {
+  let entity = new Unpaused(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+  entity.account = event.params.account;
+  entity.save();
+}

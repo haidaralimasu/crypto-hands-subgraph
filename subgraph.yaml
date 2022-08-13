@@ -3,50 +3,6 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: RockPaperScissors
-    network: mumbai
-    source:
-      address: "0x5A450C7675582aA9245D343c53640b5d524828d4"
-      abi: RockPaperScissors
-      startBlock: 27590170
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - BetCreated
-        - CryptoHandsUpdated
-        - DividerUpdated
-        - MaxBetUpdated
-        - MinBetUpdated
-        - OwnershipTransferred
-        - Paused
-        - ResultsDeclared
-        - Unpaused
-      abis:
-        - name: RockPaperScissors
-          file: ./abis/RockPaperScissors.json
-      eventHandlers:
-        - event: BetCreated(uint256,uint8,address,uint256,uint256,uint256)
-          handler: handleBetCreated
-        - event: CryptoHandsUpdated(address)
-          handler: handleCryptoHandsUpdated
-        - event: DividerUpdated(uint256)
-          handler: handleDividerUpdated
-        - event: MaxBetUpdated(uint256)
-          handler: handleMaxBetUpdated
-        - event: MinBetUpdated(uint256)
-          handler: handleMinBetUpdated
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-        - event: Paused(address)
-          handler: handlePaused
-        - event: ResultsDeclared(uint256,uint8,uint8,uint256,uint256,address,uint8,uint256)
-          handler: handleResultsDeclared
-        - event: Unpaused(address)
-          handler: handleUnpaused
-      file: ./src/rock-paper-scissors.ts
-  - kind: ethereum
     name: CryptoHands
     network: mumbai
     source:
@@ -116,4 +72,47 @@ dataSources:
           handler: handleWhitelistAdded
         - event: WhitelistRemoved(address)
           handler: handleWhitelistRemoved
-      file: ./src/contract.ts
+      file: ./src/crypto-hands.ts
+  - kind: ethereum
+    name: RockPaperScissors
+    network: mumbai
+    source:
+      address: "0x5A450C7675582aA9245D343c53640b5d524828d4"
+      abi: RockPaperScissors
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - BetCreated
+        - CryptoHandsUpdated
+        - DividerUpdated
+        - MaxBetUpdated
+        - MinBetUpdated
+        - OwnershipTransferred
+        - Paused
+        - ResultsDeclared
+        - Unpaused
+      abis:
+        - name: RockPaperScissors
+          file: ./abis/RockPaperScissors.json
+      eventHandlers:
+        - event: BetCreated(uint256,uint8,address,uint256,uint256,uint256)
+          handler: handleBetCreated
+        - event: CryptoHandsUpdated(address)
+          handler: handleCryptoHandsUpdated
+        - event: DividerUpdated(uint256)
+          handler: handleDividerUpdated
+        - event: MaxBetUpdated(uint256)
+          handler: handleMaxBetUpdated
+        - event: MinBetUpdated(uint256)
+          handler: handleMinBetUpdated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Paused(address)
+          handler: handlePaused
+        - event: ResultsDeclared(uint256,uint8,uint8,uint256,uint256,address,uint8,uint256)
+          handler: handleResultsDeclared
+        - event: Unpaused(address)
+          handler: handleUnpaused
+      file: ./src/rock-paper-scissors.ts

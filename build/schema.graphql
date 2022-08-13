@@ -1,9 +1,3 @@
-type ExampleEntity @entity {
-  id: ID!
-  count: BigInt!
-  _betId: BigInt! # uint256
-  _playerChoice: Int! # uint8
-}
 type Approval @entity {
   id: ID!
   owner: Bytes! # address
@@ -101,4 +95,61 @@ type WhitelistAdded @entity {
 type WhitelistRemoved @entity {
   id: ID!
   user: Bytes! # address
+}
+type BetCreated @entity {
+  id: ID!
+  _betId: BigInt! # uint256
+  _playerChoice: Int! # uint8
+  _player: Bytes! # address
+  _betAmount: BigInt! # uint256
+  _winAmount: BigInt! # uint256
+  _time: BigInt! # uint256
+}
+
+type CryptoHandsUpdated @entity {
+  id: ID!
+  _newCryptoHands: Bytes! # address
+}
+
+type DividerUpdated @entity {
+  id: ID!
+  _newDivider: BigInt! # uint256
+}
+
+type MaxBetUpdated @entity {
+  id: ID!
+  _newMaxBet: BigInt! # uint256
+}
+
+type MinBetUpdated @entity {
+  id: ID!
+  _newMinBet: BigInt! # uint256
+}
+
+type OwnershipTransferred @entity {
+  id: ID!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+}
+
+type Paused @entity {
+  id: ID!
+  account: Bytes! # address
+}
+
+type ResultsDeclared @entity {
+  id: ID!
+  _betId: BigInt! # uint256
+  _choice: Int! # uint8
+  _outcome: Int! # uint8
+  _amount: BigInt! # uint256
+  _winAmount: BigInt! # uint256
+  _player: Bytes! # address
+  _result: Int! # uint8
+  _time: BigInt! # uint256
+}
+
+type Unpaused @entity {
+  id: ID!
+  account: Bytes! # address
 }
